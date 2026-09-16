@@ -1,4 +1,4 @@
-# Maya AI Companion — Android Application
+# MJ AI Companion — Android Application
 
 A voice-first AI companion Android application built with **Jetpack Compose**, **Kotlin**, **Room Database**, **Google Gemini AI**, and deep **Android System Automation**.
 
@@ -45,12 +45,30 @@ A voice-first AI companion Android application built with **Jetpack Compose**, *
 
 ---
 
-## 🚀 Setup & Installation (Android Studio / GitHub)
+## 📥 How to Download & Install the APK (.apk file)
+
+### Method 1: Download from GitHub Actions (Automatic Build)
+Whenever you push to GitHub, GitHub automatically builds the installable `.apk` file:
+1. Go to your GitHub repository page.
+2. Click on the **"Actions"** tab at the top.
+3. Click on the latest workflow run named **"Build and Release Android APK"**.
+4. Scroll down to the **"Artifacts"** section at the bottom of the page.
+5. Click on **`MJ-Companion-Debug-APK`** to download the ZIP file containing `app-debug.apk`.
+6. Transfer or open the `.apk` file on your Android phone and install it!
+
+### Method 2: Direct Export from Google AI Studio (Instant APK)
+1. In the AI Studio editor header, click on the **Settings / Export** menu (top-right corner).
+2. Click **"Generate APK"** or **"Download APK"**.
+3. Download the ready `.apk` directly to your phone.
+
+---
+
+## 🚀 Setup & Installation (Android Studio / Developers)
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/<your-username>/maya-android.git
-cd maya-android
+git clone https://github.com/<your-username>/mj-android.git
+cd mj-android
 ```
 
 ### 2. Configure API Key

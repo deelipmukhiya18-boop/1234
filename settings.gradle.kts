@@ -22,6 +22,6 @@ dependencyResolutionManagement {
   }
 }
 
-rootProject.name = "Maya"
+rootProject.name = "MJ"
 
 include(":app")
