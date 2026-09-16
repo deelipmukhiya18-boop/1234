@@ -341,6 +341,116 @@ class DeviceController(private val context: Context) {
         }
     }
 
+    // --- Web Google Search Automation ---
+    fun webSearch(query: String): Boolean {
+        return try {
+            val intent = Intent(Intent.ACTION_WEB_SEARCH).apply {
+                putExtra(SearchManager.QUERY, query)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(intent)
+            true
+        } catch (e: Exception) {
+            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/search?q=" + URLEncoder.encode(query, "UTF-8"))).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(webIntent)
+            true
+        }
+    }
+
+    // --- Calendar & Reminders Automation ---
+    fun openCalendarEvent(title: String = "Maya Reminder"): Boolean {
+        return try {
+            val intent = Intent(Intent.ACTION_INSERT).apply {
+                data = android.provider.CalendarContract.Events.CONTENT_URI
+                putExtra(android.provider.CalendarContract.Events.TITLE, title)
+                putExtra(android.provider.CalendarContract.Events.DESCRIPTION, "Scheduled via Maya AI Phone Automation")
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(intent)
+            true
+        } catch (e: Exception) {
+            openCalendar()
+        }
+    }
+
+    fun openCalendar(): Boolean {
+        return try {
+            val builder = android.provider.CalendarContract.CONTENT_URI.buildUpon().appendPath("time")
+            val intent = Intent(Intent.ACTION_VIEW, builder.build()).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(intent)
+            true
+        } catch (e: Exception) {
+            launchAppByPackage("com.google.android.calendar", null)
+        }
+    }
+
+    // --- Email Client Automation ---
+    fun sendEmail(toAddress: String? = null, subject: String = "", body: String = ""): Boolean {
+        return try {
+            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:" + (toAddress ?: ""))
+                putExtra(Intent.EXTRA_SUBJECT, subject)
+                putExtra(Intent.EXTRA_TEXT, body)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(intent)
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    // --- Flashlight Strobe Emergency Beacon ---
+    fun flashStrobe(times: Int = 6) {
+        val cameraManager = context.getSystemService(Context.CAMERA_SERVICE) as? CameraManager ?: return
+        Thread {
+            try {
+                val cameraId = cameraManager.cameraIdList.firstOrNull { id ->
+                    val chars = cameraManager.getCameraCharacteristics(id)
+                    chars.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
+                } ?: return@Thread
+
+                for (i in 0 until times) {
+                    cameraManager.setTorchMode(cameraId, true)
+                    Thread.sleep(150)
+                    cameraManager.setTorchMode(cameraId, false)
+                    Thread.sleep(150)
+                }
+                isFlashlightOn = false
+            } catch (e: Exception) {
+                // ignore
+            }
+        }.start()
+    }
+
+    // --- DND / Sound Ringer Modes ---
+    fun toggleVibrateMode(): Boolean {
+        return try {
+            val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager ?: return false
+            audioManager.ringerMode = AudioManager.RINGER_MODE_VIBRATE
+            triggerHaptic(200)
+            true
+        } catch (e: Exception) {
+            openSoundSettings()
+            false
+        }
+    }
+
+    fun toggleNormalRinger(): Boolean {
+        return try {
+            val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager ?: return false
+            audioManager.ringerMode = AudioManager.RINGER_MODE_NORMAL
+            true
+        } catch (e: Exception) {
+            openSoundSettings()
+            false
+        }
+    }
+
     fun openSystemSettings() {
         val intent = Intent(Settings.ACTION_SETTINGS).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

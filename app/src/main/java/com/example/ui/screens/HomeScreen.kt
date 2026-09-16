@@ -42,11 +42,13 @@ import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material.icons.filled.AttachFile
 import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FlashlightOn
 import androidx.compose.material.icons.filled.Lock
@@ -55,7 +57,10 @@ import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Vibration
 import androidx.compose.material.icons.filled.VolumeUp
+import androidx.compose.material.icons.filled.WarningAmber
 import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -482,6 +487,31 @@ fun HomeScreen(
                 icon = Icons.Default.Wifi,
                 label = "Wi-Fi",
                 onClick = { viewModel.launchInstalledApp("WiFi") }
+            )
+            PhoneQuickButton(
+                icon = Icons.Default.Search,
+                label = "Google Search",
+                onClick = { viewModel.directWebSearch("trending news today") }
+            )
+            PhoneQuickButton(
+                icon = Icons.Default.CalendarMonth,
+                label = "Schedule",
+                onClick = { viewModel.directCalendar() }
+            )
+            PhoneQuickButton(
+                icon = Icons.Default.Email,
+                label = "Email",
+                onClick = { viewModel.directEmail() }
+            )
+            PhoneQuickButton(
+                icon = Icons.Default.WarningAmber,
+                label = "Strobe SOS",
+                onClick = { viewModel.directStrobe() }
+            )
+            PhoneQuickButton(
+                icon = Icons.Default.Vibration,
+                label = "Vibrate Mode",
+                onClick = { viewModel.directVibrate() }
             )
         }
 

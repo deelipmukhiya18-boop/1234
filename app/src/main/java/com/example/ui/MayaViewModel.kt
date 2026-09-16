@@ -481,7 +481,52 @@ class MayaViewModel(application: Application) : AndroidViewModel(application) {
                 actionDetails = "Opened Android Bluetooth panel."
                 deviceActionExecuted = true
             }
-            // 11. Apps: Instagram, etc.
+            // 11. Web & Google Search Automation
+            else if (lower.contains("search") || lower.contains("google karo") || lower.contains("search karo")) {
+                val query = command.replace(Regex("(?i)search for|search|google karo|search karo|google"), "").trim()
+                val target = if (query.isNotBlank()) query else "latest news"
+                deviceController.webSearch(target)
+                actionTitle = "Google Web Search"
+                actionDetails = "Searching '$target' on Google."
+                deviceActionExecuted = true
+            }
+            // 12. Calendar & Reminder Automation
+            else if (lower.contains("calendar") || lower.contains("schedule") || lower.contains("meeting") || lower.contains("appointment")) {
+                val title = command.replace(Regex("(?i)calendar|schedule|meeting|appointment|add|create"), "").trim()
+                val reminderTitle = if (title.isNotBlank()) title else "Maya AI Reminder"
+                deviceController.openCalendarEvent(reminderTitle)
+                actionTitle = "Calendar Event"
+                actionDetails = "Opened Calendar to schedule: $reminderTitle"
+                deviceActionExecuted = true
+            }
+            // 13. Email & Gmail Automation
+            else if (lower.contains("email") || lower.contains("mail") || lower.contains("gmail")) {
+                val mailBody = command.replace(Regex("(?i)send email|email bhejo|mail bhejo|email|mail"), "").trim()
+                deviceController.sendEmail(body = mailBody)
+                actionTitle = "Email Client"
+                actionDetails = "Opened email composer: $mailBody"
+                deviceActionExecuted = true
+            }
+            // 14. Emergency Strobe Light Beacon
+            else if (lower.contains("strobe") || lower.contains("sos light") || lower.contains("emergency light")) {
+                deviceController.flashStrobe(8)
+                actionTitle = "Emergency Strobe Beacon"
+                actionDetails = "Flashing camera LED strobe emergency beacon."
+                deviceActionExecuted = true
+            }
+            // 15. Ringer & Vibrate Profiles
+            else if (lower.contains("vibrate") || lower.contains("vibration mode")) {
+                deviceController.toggleVibrateMode()
+                actionTitle = "Vibrate Profile"
+                actionDetails = "Ringer switched to Vibrate."
+                deviceActionExecuted = true
+            } else if (lower.contains("ring mode") || lower.contains("normal sound") || lower.contains("ringer on")) {
+                deviceController.toggleNormalRinger()
+                actionTitle = "Normal Ring Mode"
+                actionDetails = "Ringer profile restored to Normal."
+                deviceActionExecuted = true
+            }
+            // 16. Apps: Instagram, etc.
             else if (lower.contains("instagram") || lower.contains("insta")) {
                 deviceController.launchAppByPackage("com.instagram.android", "https://instagram.com")
                 actionTitle = "Opened Instagram"
@@ -710,6 +755,36 @@ class MayaViewModel(application: Application) : AndroidViewModel(application) {
         deviceController.muteVolume()
         recordDeviceAction("Muted", "Device volume silenced.")
         speakWithSelectedVoice("Media muted.")
+    }
+
+    fun directWebSearch(query: String = "Google Search") {
+        deviceController.webSearch(query)
+        recordDeviceAction("Web Search", "Initiated Google Search for $query.")
+        speakWithSelectedVoice("Searching Google for $query.")
+    }
+
+    fun directCalendar() {
+        deviceController.openCalendarEvent("Maya Task Reminder")
+        recordDeviceAction("Calendar", "Opened Android calendar scheduler.")
+        speakWithSelectedVoice("Opening calendar.")
+    }
+
+    fun directEmail() {
+        deviceController.sendEmail(body = "Sent via Maya AI Companion")
+        recordDeviceAction("Email", "Opened email composer.")
+        speakWithSelectedVoice("Opening email.")
+    }
+
+    fun directStrobe() {
+        deviceController.flashStrobe(8)
+        recordDeviceAction("Strobe Light", "Emergency LED strobe flashing.")
+        speakWithSelectedVoice("Emergency strobe beacon activated.")
+    }
+
+    fun directVibrate() {
+        deviceController.toggleVibrateMode()
+        recordDeviceAction("Vibrate Mode", "Phone set to vibrate mode.")
+        speakWithSelectedVoice("Vibrate mode enabled.")
     }
 
     private fun recordDeviceAction(title: String, details: String) {

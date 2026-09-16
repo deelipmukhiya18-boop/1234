@@ -617,6 +617,85 @@ fun PhoneLinkScreen(
                             }
                         }
                     }
+
+                    // Row 4: Web Search, Calendar, Email, Strobe
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        // Web Search
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(MayaCardHighlight)
+                                .clickable { viewModel.directWebSearch("trending news") }
+                                .padding(vertical = 12.dp)
+                                .testTag("launch_web_search"),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text("🔍", fontSize = 20.sp)
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text("Search", color = TextPrimary, fontSize = 11.sp, fontWeight = FontWeight.Medium)
+                            }
+                        }
+
+                        // Calendar
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(MayaCardHighlight)
+                                .clickable { viewModel.directCalendar() }
+                                .padding(vertical = 12.dp)
+                                .testTag("launch_calendar"),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text("📅", fontSize = 20.sp)
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text("Schedule", color = TextPrimary, fontSize = 11.sp, fontWeight = FontWeight.Medium)
+                            }
+                        }
+
+                        // Email
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(MayaCardHighlight)
+                                .clickable { viewModel.directEmail() }
+                                .padding(vertical = 12.dp)
+                                .testTag("launch_email"),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text("✉️", fontSize = 20.sp)
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text("Email", color = TextPrimary, fontSize = 11.sp, fontWeight = FontWeight.Medium)
+                            }
+                        }
+
+                        // Strobe SOS
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(MayaCardHighlight)
+                                .clickable { viewModel.directStrobe() }
+                                .padding(vertical = 12.dp)
+                                .testTag("launch_strobe"),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text("🚨", fontSize = 20.sp)
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text("Strobe", color = TextPrimary, fontSize = 11.sp, fontWeight = FontWeight.Medium)
+                            }
+                        }
+                    }
                 }
             }
 
