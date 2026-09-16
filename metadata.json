@@ -1,0 +1,6 @@
+{
+  "name": "Maya",
+  "description": "Maya Voice-First AI Companion Android app: Phone Link, QR pairing with Desktop HUD, hands-free actions, live Gemini assistant, and remote phone control.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
