@@ -53,13 +53,10 @@ jobs:
 
       - name: Ensure Gradle Wrapper Executable
         run: |
-          if [ ! -f "gradlew" ]; then
-            gradle wrapper
-          fi
-          chmod +x gradlew
+          chmod +x gradlew || true
 
       - name: Build Debug APK with Gradle
-        run: ./gradlew assembleDebug --no-daemon --no-configuration-cache --stacktrace
+        run: ./gradlew assembleDebug --no-daemon --no-build-cache --no-configuration-cache --stacktrace --info
 
       - name: Upload APK to GitHub Artifacts (Instant Download)
         uses: actions/upload-artifact@v4
